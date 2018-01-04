@@ -1,0 +1,68 @@
+const path = require('path');
+const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const phaserModule = path.join(__dirname, '/node_modules/phaser/');
+const phaser = path.join(phaserModule, 'src/phaser.js');
+
+const paths = {
+  root: path.resolve(__dirname),
+  src: path.resolve(__dirname, 'src'),
+  dist: path.resolve(__dirname, 'dist')
+};
+
+module.exports = {
+  entry: {
+    app: [
+      'babel-polyfill',
+      path.join(paths.src, 'main.js')
+    ],
+    vendor: ['phaser']
+  },
+  context: path.resolve(__dirname, 'src'),
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'js/bundle.js'
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: path.join(paths.root, 'index.html'),
+      chunks: ['app', 'vendor']
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      filename: 'js/vendor.bundle.js'
+    }),
+    new ExtractTextPlugin('css/[name].css')
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        use: ['babel-loader'],
+        include: path.join(__dirname, 'src')
+      }, {
+        test: /phaser-split\.js$/,
+        use: ['expose-loader?Phaser']
+      }, {
+        test: /\.(scss|css)$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader!sass-loader'
+        })
+      }
+    ]
+  },
+  node: {
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
+  },
+  resolve: {
+    alias: {
+      'phaser': phaser
+    }
+  }
+};
