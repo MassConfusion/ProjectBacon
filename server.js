@@ -4,7 +4,7 @@ const port = process.env.PORT || 5001;
 const env = process.env.NODE_ENV || 'prod';
 const app = express();
 
-if (env == 'dev') {
+if (env === 'dev') {
   const webpack = require('webpack');
   const config = require('./webpack.dev.js');
   const compiler = webpack(config);

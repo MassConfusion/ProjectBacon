@@ -20,9 +20,9 @@ module.exports = {
     ],
     vendor: ['phaser']
   },
-  context: path.resolve(paths.src),
+  context: paths.src,
   output: {
-    path: path.resolve(paths.dist),
+    path: paths.dist,
     filename: 'js/bundle.js'
   },
   plugins: [
@@ -46,7 +46,7 @@ module.exports = {
       {
         test: /\.js$/,
         use: ['babel-loader'],
-        include: path.join(__dirname, 'src')
+        include: paths.src
       }, {
         test: /phaser-split\.js$/,
         use: ['expose-loader?Phaser']
@@ -59,7 +59,7 @@ module.exports = {
       }, {
         test: /\.(png|svg|jpg|gif)$/,
         use: ['file-loader'],
-        include: path.join(__dirname, 'src/assets')
+        include: path.join(paths.src, 'assets')
       }
     ]
   },
