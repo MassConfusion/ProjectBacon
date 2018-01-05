@@ -1,5 +1,8 @@
 # Project Bacon
 
+[![License](https://img.shields.io/badge/licence-Apache%202.0-brightgreen.svg?style=flat)](LICENSE)
+[![Build Status](https://travis-ci.org/MassConfusion/ProjectBacon.svg?branch=master)](https://travis-ci.org/MassConfusion/ProjectBacon)
+
 ## Getting started
 This project requires [node.js](https://nodejs.org/en/) v8.x.x or higher and [npm](https://www.npmjs.com) 5.x.x or higher to be able to work properly.
 
