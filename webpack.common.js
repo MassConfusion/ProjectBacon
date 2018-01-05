@@ -20,9 +20,9 @@ module.exports = {
     ],
     vendor: ['phaser']
   },
-  context: path.resolve(__dirname, 'src'),
+  context: path.resolve(paths.src),
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(paths.dist),
     filename: 'js/bundle.js'
   },
   plugins: [
@@ -34,6 +34,10 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       filename: 'js/vendor.bundle.js'
+    }),
+    new webpack.DefinePlugin({
+      'CANVAS_RENDERER': JSON.stringify(true),
+      'WEBGL_RENDERER': JSON.stringify(true)
     }),
     new ExtractTextPlugin('css/[name].css')
   ],
