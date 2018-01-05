@@ -1,4 +1,6 @@
 import Phaser from 'phaser';
+import character from '../assets/images/character.png';
+import mushroom from '../assets/images/mushroom2.png';
 
 export default class BootScene extends Phaser.Scene {
 
@@ -11,8 +13,8 @@ export default class BootScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.spritesheet('player', './assets/images/character.png', {frameWidth: 16, frameHeight: 32});
-    this.load.image('mushroom', './assets/images/mushroom2.png');
+    this.load.spritesheet('player', character, {frameWidth: 16, frameHeight: 32});
+    this.load.image('mushroom', mushroom);
   }
 
   create() {
