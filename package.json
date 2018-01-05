@@ -7,7 +7,9 @@
   "scripts": {
     "start": "webpack-dev-server --open --progress --config webpack.config.js",
     "build": "webpack --config webpack.prod.js",
-    "lint": "eslint ./src/**/**.js"
+    "lint": "eslint src ./**.js -f table --ext .js",
+    "lint-fix": "eslint src ./**.js -f table --ext .js --fix",
+    "lint-travis": "eslint src ./**.js --ext .js"
   },
   "repository": {
     "type": "git",

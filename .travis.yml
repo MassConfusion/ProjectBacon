@@ -1,0 +1,18 @@
+language: node_js
+node_js: 8
+os: linux
+install: true
+cache:
+  directories:
+    - node_modules
+jobs:
+  include:
+  - stage: Check
+    install:
+      - npm install eslint
+    script:
+      - npm run lint-travis
+  - stage: Build
+    script:
+    - npm install
+    - npm run build

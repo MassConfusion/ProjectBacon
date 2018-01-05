@@ -43,16 +43,17 @@ $ npm run build
 
 ### Run style checker
 ```
-# Assumes that you are in the project root directory.
-
-# Install the project dependencies.
-$ npm install
-
 # To run the eslint.
 $ npm run lint
 ```
 
+### Run style autofix
+```
+# To run the eslint.
+$ npm run lint-fix
+```
+
 ## Extra
-- [ES6 cheet-sheet](http://es6-features.org)
+- [ES6 CheatSheet](http://es6-features.org)
 - [Phaser 3 API](https://phaser.io/phaser3/api)
 - [Phaser examples](http://labs.phaser.io/)
