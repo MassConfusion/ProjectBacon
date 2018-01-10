@@ -4,9 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const phaserModule = path.join(__dirname, '/node_modules/phaser/');
-const jqueryModule = path.join(__dirname, '/node_modules/jquery/');
 const phaser = path.join(phaserModule, 'src/phaser.js');
-const jquery = path.join(jqueryModule, 'src/jquery.js');
 
 const paths = {
   root: path.resolve(__dirname),
@@ -41,7 +39,11 @@ module.exports = {
       'CANVAS_RENDERER': JSON.stringify(true),
       'WEBGL_RENDERER': JSON.stringify(true)
     }),
-    new ExtractTextPlugin('css/[name].css')
+    new ExtractTextPlugin('css/[name].css'),
+    new webpack.ProvidePlugin({
+      jQuery: 'jquery',
+      $: 'jquery'
+    })
   ],
   module: {
     rules: [
@@ -72,8 +74,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      'phaser': phaser,
-      'jquery': jquery
+      'phaser': phaser
     }
   }
 };

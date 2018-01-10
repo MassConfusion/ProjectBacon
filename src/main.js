@@ -3,8 +3,11 @@ import BootScene from './scenes/Boot';
 import PlayerScene from './scenes/examples/PlayerScene';
 import Chat from './chat';
 
-import './main.scss';
 import 'jquery';
+import 'bootstrap';
+
+import 'bootstrap/dist/css/bootstrap.css';
+import './main.scss';
 
 const config = {
   type: Phaser.AUTO,
