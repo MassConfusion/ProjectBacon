@@ -39,6 +39,7 @@ module.exports = {
     'computed-property-spacing': 2,
     'eol-last': 2,
     'func-call-spacing': 2,
+    "indent": [2, 2],
     'key-spacing': 2,
     'keyword-spacing': 2,
     'new-cap': 2,
