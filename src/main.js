@@ -28,6 +28,6 @@ $('#startButton').on('click', () => {
   login.hide();
   chat.show();
   game.show();
-  new Chat($('#userNameInput')[0].value);
+  new Chat($('#userNameInput').val());
   new Phaser.Game(config);
 });

@@ -35,31 +35,31 @@ const io = new SocketIO(server);
 
 const users = new Map();
 
-io.on('connection', function(socket) {
+io.on('connection', (socket) => {
   const nick = socket.handshake.query.nick;
   const user = {
     id: socket.id,
     nick: nick
   };
-  console.log('connected: ' + user.nick);
+  console.log(`connected: ${user.nick}`);
   users.set(socket.id, user);
 
-  socket.on('disconnect', function() {
-    console.log('disconnected: ' + users.get(socket.id).nick);
+  socket.on('disconnect', () => {
+    console.log(`disconnected: ${users.get(socket.id).nick}`);
     users.delete(socket.id);
   });
 
-  socket.on('userMessage', function(data) {
+  socket.on('userMessage', (data) => {
     socket.broadcast.emit('serverMessage', data);
   });
 });
 
 // Start the server.
-server.listen(port, function(err) {
+server.listen(port, (err) => {
 
   if (err) {
     console.log(err);
   }
 
-  console.info('==> The server is listening on port %s. Env: %s.', port, env);
+  console.info(`The server is listening on port ${port}. Env: ${env}.`);
 });
