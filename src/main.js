@@ -9,6 +9,9 @@ import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import './main.scss';
 
+/**
+ * Phaser init configs.
+ */
 const config = {
   type: Phaser.AUTO,
   parent: 'content',
@@ -20,17 +23,41 @@ const config = {
   ]
 };
 
-const login = $('#login');
-const chat = $('#chat');
-const game = $('#game');
-game.hide();
-chat.hide();
-login.show();
 
-$('#startButton').on('click', () => {
-  login.hide();
-  chat.show();
-  game.show();
-  new Chat($('#userNameInput').val());
-  new Phaser.Game(config);
+/**
+ * Document ready.
+ */
+$(() => {
+  const ui = {
+    login: $('#login-wrapper'),
+    chat: $('#chat-wrapper'),
+    game: $('#game')
+  };
+
+  /**
+   * Default states.
+   */
+  ui.game.hide();
+  ui.chat.hide();
+  ui.login.show();
+
+  /**
+   * Event listeners.
+   */
+  (() => {
+    $('#username-input').on('keypress', (key) => {
+      if ((key.which || key.keyCode) === 13) {
+        $('#play-game-button').trigger('click');
+      }
+    });
+
+    $('#play-game-button').on('click', () => {
+      ui.login.hide();
+      ui.chat.show();
+      ui.game.show();
+
+      new Chat($('#username-input').val());
+      new Phaser.Game(config);
+    });
+  })();
 });

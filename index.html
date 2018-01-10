@@ -11,17 +11,37 @@
   </head>
 
   <body>
-    <div id="content"></div>
-    <div id="chat">
-        <ul id="chatBox"></ul>
-        <input id="chatInput" type="text" placeholder="Chat here..." maxlength="35" />
+    <!-- Login -->
+    <div class="full-height align-items-center" id="login-wrapper">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="mx-auto" id="login-fieldset">
+              <h2 class="text-center my-4">Project Bacon</h2>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">Username:</div>
+                </div>
+                <input type="text"class="form-control" tabindex="0" autofocus autocomplete="off" id="username-input" maxlength="25">
+                <div class="input-group-append">
+                  <button type="button" class="btn btn-outline-secondary" id="play-game-button">Play</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div id="login">
-      <label for="userNameInput">Name:</label>
-      <input type="text" tabindex="0" autofocus placeholder="Enter your name here" id="userNameInput" maxlength="25" />
-      <a>
-        <button id="startButton">Play</button>
-      </a>
+
+    <!-- Game -->
+    <div id="game"></div>
+
+    <!-- Chat -->
+    <div class="m-2" id="chat-wrapper">
+        <div id="chat-box-background">
+          <ul id="chat-box"></ul>
+        </div>
+        <input type="text" class="form-control form-control-sm" id="chat-input" placeholder="Chat here..." maxlength="150">
     </div>
   </body>
 </html>

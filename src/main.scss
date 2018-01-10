@@ -4,4 +4,73 @@ html,
 body {
   margin: 0;
   padding: 0;
+  height: 100%;
+}
+
+.full-height {
+  height: 100%;
+}
+
+// Login form rules.
+#login-wrapper {
+  display: flex;
+
+  #login-fieldset {
+    position: relative;
+    width: 400px;
+  }
+}
+
+// Chat window rules.
+#chat-wrapper {
+  position: absolute;
+  display: none;
+  left: 0;
+  bottom: 0;
+  width: 300px;
+  height: 40%;
+
+  #chat-box-background {
+    position: relative;
+    margin: 0;
+    width: 100%;
+    height: calc(100% - 35px);
+    border-radius: 0.2rem;
+    background-color: rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+
+    #chat-box {
+      position: absolute;
+      bottom: 0;
+      width: calc(100% + 25px);
+      max-height: 100%;
+      margin: 0;
+      padding: 5px;
+      overflow-y: scroll;
+
+      li {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        color: #fff;
+
+        .chat-nicks {
+          font-weight: bold;
+          font-style: italic;
+        }
+      }
+    }
+  }
+
+  #chat-input {
+    position: absolute;
+    bottom: 0;
+  }
+}
+
+#chat-wrapper:hover {
+  #chat-box-background {
+    transition: .3s;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
 }
