@@ -2,7 +2,11 @@ const path = require('path');
 const express = require('express');
 const port = process.env.PORT || 5001;
 const env = process.env.NODE_ENV || 'prod';
+const SocketIO = require('socket.io');
+const http = require('http');
 const app = express();
+
+const server = http.createServer(app);
 
 if (env === 'dev') {
   const webpack = require('webpack');
@@ -27,8 +31,31 @@ if (env === 'dev') {
   });
 }
 
+const io = new SocketIO(server);
+
+const users = new Map();
+
+io.on('connection', function(socket) {
+  const nick = socket.handshake.query.nick;
+  const user = {
+    id: socket.id,
+    nick: nick
+  };
+  console.log('connected: ' + user.nick);
+  users.set(socket.id, user);
+
+  socket.on('disconnect', function() {
+    console.log('disconnected: ' + users.get(socket.id).nick);
+    users.delete(socket.id);
+  });
+
+  socket.on('userMessage', function(data) {
+    socket.broadcast.emit('serverMessage', data);
+  });
+});
+
 // Start the server.
-app.listen(port, function(err) {
+server.listen(port, function(err) {
 
   if (err) {
     console.log(err);

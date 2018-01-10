@@ -4,7 +4,9 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const phaserModule = path.join(__dirname, '/node_modules/phaser/');
+const jqueryModule = path.join(__dirname, '/node_modules/jquery/');
 const phaser = path.join(phaserModule, 'src/phaser.js');
+const jquery = path.join(jqueryModule, 'src/jquery.js');
 
 const paths = {
   root: path.resolve(__dirname),
@@ -70,7 +72,8 @@ module.exports = {
   },
   resolve: {
     alias: {
-      'phaser': phaser
+      'phaser': phaser,
+      'jquery': jquery
     }
   }
 };

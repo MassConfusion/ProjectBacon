@@ -1,10 +1,10 @@
 import Phaser from 'phaser';
 import BootScene from './scenes/Boot';
-import BootMenu from './scenes/BootMenu';
 import PlayerScene from './scenes/examples/PlayerScene';
-import MushroomScene from './scenes/examples/MushroomScene';
+import Chat from './chat';
 
 import './main.scss';
+import 'jquery';
 
 const config = {
   type: Phaser.AUTO,
@@ -13,10 +13,21 @@ const config = {
   height: 600,
   scene: [
     BootScene,
-    BootMenu,
-    MushroomScene,
     PlayerScene
   ]
 };
 
-new Phaser.Game(config);
+const login = $('#login');
+const chat = $('#chat');
+const game = $('#game');
+game.hide();
+chat.hide();
+login.show();
+
+$('#startButton').on('click', () => {
+  login.hide();
+  chat.show();
+  game.show();
+  new Chat($('#userNameInput')[0].value);
+  new Phaser.Game(config);
+});
