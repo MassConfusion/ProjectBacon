@@ -20,6 +20,7 @@ if (env === 'dev') {
     reload: true,
     stats: { colors: true }
   }));
+
   app.use(require('webpack-hot-middleware')(compiler));
 } else {
   // Define the folder that will be used for production.
@@ -41,11 +42,16 @@ io.on('connection', (socket) => {
     id: socket.id,
     nick: nick
   };
+
   console.log(`connected: ${user.nick}`);
+
   users.set(socket.id, user);
+  socket.broadcast.emit('serverMessage', {nick: 'SERVER', message: `${user.nick} is connected`});
 
   socket.on('disconnect', () => {
     console.log(`disconnected: ${users.get(socket.id).nick}`);
+
+    socket.broadcast.emit('serverMessage', {nick: 'SERVER', message: `${users.get(socket.id).nick} is disconnected`});
     users.delete(socket.id);
   });
 
