@@ -20,18 +20,21 @@ export default class Chat {
 
     this.chatInput.on('keypress', (key) => {
       key = key.which || key.keyCode;
+
       if (key === 13) {
-        this.socket.emit('userMessage', {nick: this.nick, message: this.chatInput.val()});
-        this.addMessage(this.nick, this.chatInput.val());
-        this.chatInput.val('');
+        const message = this.chatInput.val();
+
+        if (message !== '') {
+          this.socket.emit('userMessage', {nick: this.nick, message: message});
+          this.addMessage(this.nick, message);
+          this.chatInput.val('');
+        }
       }
     });
   }
 
   addMessage(nick, message) {
-    if (message !== '') {
-      this.chatBox.append($(`<li><span class="chat-nicks">${nick}</span>: ${message}</li>`));
-      this.chatBox.scrollTop(this.chatBox.prop('scrollHeight'));
-    }
+    this.chatBox.append($(`<li><span class="chat-nicks">${nick}</span>: ${message}</li>`));
+    this.chatBox.scrollTop(this.chatBox.prop('scrollHeight'));
   }
 }
