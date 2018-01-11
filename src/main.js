@@ -52,11 +52,29 @@ $(() => {
     });
 
     $('#play-game-button').on('click', () => {
+      const username = $('#username-input');
+      const alert = $('#login-input-alert');
+
+      if (username.val() === '') {
+        alert.html('Please fill in the username field.').show();
+        return false;
+      }
+
+      if (username.val().length < username.attr('minLength') ||
+          username.val().length > username.attr('maxLength') ||
+          new RegExp(/\s/g).test(username.val())) {
+        alert.html(
+          `The username length must be between ${username.attr('minLength')} and ${username.attr('maxLength')} and ` +
+          'cannot contain any space character.'
+        ).show();
+        return false;
+      }
+
       ui.login.hide();
       ui.chat.show();
       ui.game.show();
 
-      new Chat($('#username-input').val());
+      new Chat(username.val());
       new Phaser.Game(config);
     });
   })();

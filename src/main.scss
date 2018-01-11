@@ -18,6 +18,10 @@ body {
   #login-fieldset {
     position: relative;
     width: 400px;
+
+    #login-input-alert {
+      display: none;
+    }
   }
 }
 
