@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import BootScene from './scenes/Boot';
-import PlayerScene from './scenes/examples/PlayerScene';
+import PlayerScene from './scenes/PlayerScene';
 import Chat from './chat';
 
 import 'jquery';
@@ -17,6 +17,7 @@ const config = {
   parent: 'content',
   width: 800,
   height: 600,
+  backgroundColor: '#ffffff',
   scene: [
     BootScene,
     PlayerScene

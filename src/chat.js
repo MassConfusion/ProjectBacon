@@ -8,10 +8,10 @@ export default class Chat {
     this.chatInput = $('#chat-input');
     this.chatBox = $('#chat-box');
 
-    if (__DEV__) console.log(`nick: ${nick}`);
+    if (__DEV__ === 'true') console.log(`nick: ${nick}`);
 
     this.socket.on('pong', (socket) => {
-      if (__DEV__) console.log(`pong: ${socket}`);
+      if (__DEV__ === 'true') console.log(`pong: ${socket}`);
     });
 
     this.socket.on('serverMessage', (data) => {

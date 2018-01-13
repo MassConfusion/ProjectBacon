@@ -25,6 +25,7 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-es2015": "^6.24.1",
     "css-loader": "^0.28.7",
+    "dat.gui": "^0.6.5",
     "eslint": "^4.14.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.8.0",
