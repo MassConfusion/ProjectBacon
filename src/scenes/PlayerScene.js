@@ -16,10 +16,13 @@ export default class PlayerScene extends Phaser.Scene {
   }
 
   create() {
-    const map_width = 3300;
-    const map_height = 2550;
     let player_size = 20;
-    this.grid = this.add.image(map_width / 2, map_height / 2, 'grid');
+    this.grid = this.add.image(0, 0, 'grid');
+    const map_width = this.grid.width;
+    const map_height = this.grid.height;
+    this.grid.x = map_width / 2;
+    this.grid.y = map_height / 2;
+    this.socket = this.game.config.socket;
     this.player = new Player({
       scene: this,
       key: 'player',
@@ -30,13 +33,13 @@ export default class PlayerScene extends Phaser.Scene {
         tl_y: 0 + player_size,
         br_x: map_width - player_size,
         br_y: map_height - player_size
-      }
+      },
+      controlled: false
     });
     this.player.scaleX = 5;
     this.player.scaleY = 5;
     this.cameras.main.setBounds(0, 0, map_width, map_height);
     this.cameras.main.startFollow(this.player);
-
     if (__DEV__ === 'true') {
       let guiPlayer = this.dat_gui.addFolder('Player');
       guiPlayer.add(this.player, 'x', 0, map_width).listen();

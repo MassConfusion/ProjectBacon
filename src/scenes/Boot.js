@@ -1,6 +1,8 @@
 import Phaser from 'phaser';
 import character from '../assets/images/character.png';
-import grid from '../assets/images/large_grid.png';
+import grid from '../assets/images/small_grid.jpg';
+// import grid from '../assets/images/medium_grid.svg';
+// import grid from '../assets/images/large_grid.png';
 
 export default class BootScene extends Phaser.Scene {
 

@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 
 export default class Player extends Phaser.GameObjects.Sprite {
   constructor(config) {
-    const { scene, x, y, key, map_bounds } = config;
+    const { scene, x, y, key, map_bounds, controlled } = config;
 
     super(scene, x, y, key);
 
@@ -43,11 +43,13 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.anims.load('playerWalkLeft');
     this.anims.load('playerWalkRight');
 
-    this.setInteractive();
-    this.downKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-    this.upKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-    this.leftKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-    this.rightKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+    // this.setInteractive();
+    if (controlled) {
+      this.downKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+      this.upKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+      this.leftKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+      this.rightKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+    }
 
     this.map_bounds = map_bounds;
     if (__DEV__ === 'true') console.log(this);

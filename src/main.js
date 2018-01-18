@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import BootScene from './scenes/Boot';
 import PlayerScene from './scenes/PlayerScene';
 import Chat from './chat';
+import io from 'socket.io-client';
 
 import 'jquery';
 import 'bootstrap';
@@ -74,8 +75,10 @@ $(() => {
       ui.login.hide();
       ui.chat.show();
       ui.game.show();
-
-      new Chat(username.val());
+      const nick = username.val();
+      const socket = io({query: `nick=${nick}`});
+      new Chat(nick, socket);
+      config.socket = socket;
       new Phaser.Game(config);
     });
   })();

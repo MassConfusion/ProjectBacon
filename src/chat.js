@@ -1,18 +1,12 @@
-import io from 'socket.io-client';
-
 export default class Chat {
 
-  constructor(nick) {
+  constructor(nick, socket) {
     this.nick = nick;
-    this.socket = io({query: `nick=${nick}`});
+    this.socket = socket;
     this.chatInput = $('#chat-input');
     this.chatBox = $('#chat-box');
 
     if (__DEV__ === 'true') console.log(`nick: ${nick}`);
-
-    this.socket.on('pong', (socket) => {
-      if (__DEV__ === 'true') console.log(`pong: ${socket}`);
-    });
 
     this.socket.on('serverMessage', (data) => {
       this.addMessage(data.nick, data.message);
