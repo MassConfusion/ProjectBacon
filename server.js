@@ -40,23 +40,44 @@ io.on('connection', (socket) => {
   const nick = socket.handshake.query.nick;
   const user = {
     id: socket.id,
-    nick: nick
+    nick: nick,
+    x: 0,
+    y: 0
   };
+  users.set(socket.id, user);
 
   console.log(`connected: ${user.nick}`);
 
-  users.set(socket.id, user);
   socket.broadcast.emit('serverMessage', {nick: 'SERVER', message: `${user.nick} is connected`});
-
-  socket.on('disconnect', () => {
-    console.log(`disconnected: ${users.get(socket.id).nick}`);
-
-    socket.broadcast.emit('serverMessage', {nick: 'SERVER', message: `${users.get(socket.id).nick} is disconnected`});
-    users.delete(socket.id);
-  });
 
   socket.on('userMessage', (data) => {
     socket.broadcast.emit('serverMessage', data);
+  });
+
+  socket.on('disconnect', () => {
+    console.log(`disconnected: ${users.get(socket.id).nick}`);
+    socket.broadcast.emit('serverMessage', {nick: 'SERVER', message: `${users.get(socket.id).nick} is disconnected`});
+    socket.broadcast.emit('serverRemovePlayer', {id: socket.id});
+    users.delete(socket.id);
+    socket.disconnect();
+  });
+  socket.on('newPlayer', (data) => {
+    console.log(`newPlayer[${socket.id}]: ${JSON.stringify(data)}`);
+    let user = users.get(socket.id);
+    user.x = data.x;
+    user.y = data.y;
+    for (let u of users.values()) {
+      if (u.id != socket.id) {
+        socket.emit('serverNewPlayer', {id: u.id, pos: {x: u.x, y: u.y}});
+      }
+    }
+    socket.broadcast.emit('serverNewPlayer', {id: socket.id, pos: {x: data.x, y: data.y}});
+  });
+  socket.on('movePlayer', (data) => {
+    let user = users.get(socket.id);
+    user.x = data.x;
+    user.y = data.y;
+    socket.broadcast.emit('serverMovePlayer', {id: socket.id, pos: {x: data.x, y: data.y}});
   });
 });
 

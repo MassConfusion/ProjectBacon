@@ -76,9 +76,8 @@ $(() => {
       ui.chat.show();
       ui.game.show();
       const nick = username.val();
-      const socket = io({query: `nick=${nick}`});
-      new Chat(nick, socket);
-      config.socket = socket;
+      window.socket = io({query: `nick=${nick}`});
+      new Chat(nick);
       new Phaser.Game(config);
     });
   })();

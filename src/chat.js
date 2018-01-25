@@ -1,8 +1,8 @@
 export default class Chat {
 
-  constructor(nick, socket) {
+  constructor(nick) {
     this.nick = nick;
-    this.socket = socket;
+    this.socket = window.socket;
     this.chatInput = $('#chat-input');
     this.chatBox = $('#chat-box');
 

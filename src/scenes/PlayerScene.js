@@ -9,46 +9,91 @@ export default class PlayerScene extends Phaser.Scene {
   constructor() {
     super( { key: 'PlayerScene' });
 
+    this.in_game = false;
     this.player = null;
+    this.socket = window.socket;
+    this.other_players = new Map();
     if (__DEV__ === 'true') {
       this.dat_gui = new GUI();
     }
   }
 
-  create() {
-    let player_size = 20;
+  createWorld() {
     this.grid = this.add.image(0, 0, 'grid');
-    const map_width = this.grid.width;
-    const map_height = this.grid.height;
-    this.grid.x = map_width / 2;
-    this.grid.y = map_height / 2;
-    this.socket = this.game.config.socket;
+    this.grid.x = this.grid.width / 2;
+    this.grid.y = this.grid.height / 2;
+    this.cameras.main.setBounds(0, 0, this.grid.width, this.grid.height);
+    this.cameras.main.startFollow(this.player);
+  }
+
+  createPlayer() {
+    console.log('createPlayer');
+    let player_size = 20;
     this.player = new Player({
       scene: this,
       key: 'player',
-      x: player_size + Math.floor(Math.random() * (map_width - player_size * 2)),
-      y: player_size + Math.floor(Math.random() * (map_height - player_size * 2)),
+      x: player_size + Math.floor(Math.random() * (this.grid.width - player_size * 2)),
+      y: player_size + Math.floor(Math.random() * (this.grid.height - player_size * 2)),
       map_bounds: {
         tl_x: 0 + player_size,
         tl_y: 0 + player_size,
-        br_x: map_width - player_size,
-        br_y: map_height - player_size
+        br_x: this.grid.width - player_size,
+        br_y: this.grid.height - player_size
       },
-      controlled: false
+      controlled: true
     });
-    this.player.scaleX = 5;
-    this.player.scaleY = 5;
-    this.cameras.main.setBounds(0, 0, map_width, map_height);
-    this.cameras.main.startFollow(this.player);
     if (__DEV__ === 'true') {
       let guiPlayer = this.dat_gui.addFolder('Player');
-      guiPlayer.add(this.player, 'x', 0, map_width).listen();
-      guiPlayer.add(this.player, 'y', 0, map_height).listen();
+      guiPlayer.add(this.player, 'x', 0, this.grid.width).listen();
+      guiPlayer.add(this.player, 'y', 0, this.grid.height).listen();
       guiPlayer.open();
     }
+    this.in_game = true;
+    this.socket.emit('newPlayer', {x: this.player.x, y: this.player.y});
+  }
+
+  createRemotePlayer(data) {
+    console.log('createRemotePlayer');
+    let player_size = 20;
+    this.other_players.set(data.id, new Player({
+      scene: this,
+      key: 'player',
+      x: data.pos.x,
+      y: data.pos.y,
+      map_bounds: {
+        tl_x: 0 + player_size,
+        tl_y: 0 + player_size,
+        br_x: this.grid.width - player_size,
+        br_y: this.grid.height - player_size
+      },
+      controlled: false
+    }));
+  }
+
+  moveRemotePlayer(data) {
+    let op = this.other_players.get(data.id);
+    op.x = data.pos.x;
+    op.y = data.pos.y;
+  }
+
+  removeRemotePlayer(data) {
+    let op = this.other_players.get(data.id);
+    op.destroy();
+    this.other_players.delete(data.id);
+  }
+
+  create() {
+    this.createWorld();
+    this.createPlayer();
+    this.socket.on('serverNewPlayer', (data) => this.createRemotePlayer(data));
+    this.socket.on('serverMovePlayer', (data) => this.moveRemotePlayer(data));
+    this.socket.on('serverRemovePlayer', (data) => this.removeRemotePlayer(data));
   }
 
   update() {
-    this.player.update();
+    if (this.in_game) {
+      this.player.update();
+      this.socket.emit('movePlayer', {x: this.player.x, y: this.player.y});
+    }
   }
 }
