@@ -7,7 +7,7 @@ import { GUI } from 'dat.gui/build/dat.gui.js';
 export default class PlayerScene extends Phaser.Scene {
 
   constructor() {
-    super( { key: 'PlayerScene' });
+    super({ key: 'PlayerScene' });
 
     this.in_game = false;
     this.player = null;
@@ -19,27 +19,28 @@ export default class PlayerScene extends Phaser.Scene {
   }
 
   createWorld() {
+    this.player_size = 20;
     this.grid = this.add.image(0, 0, 'grid');
     this.grid.x = this.grid.width / 2;
     this.grid.y = this.grid.height / 2;
+    this.map_bounds = {
+      tl_x: 0 + this.player_size,
+      tl_y: 0 + this.player_size,
+      br_x: this.grid.width - this.player_size,
+      br_y: this.grid.height - this.player_size
+    };
     this.cameras.main.setBounds(0, 0, this.grid.width, this.grid.height);
     this.cameras.main.startFollow(this.player);
   }
 
   createPlayer() {
     console.log('createPlayer');
-    let player_size = 20;
     this.player = new Player({
       scene: this,
       key: 'player',
-      x: player_size + Math.floor(Math.random() * (this.grid.width - player_size * 2)),
-      y: player_size + Math.floor(Math.random() * (this.grid.height - player_size * 2)),
-      map_bounds: {
-        tl_x: 0 + player_size,
-        tl_y: 0 + player_size,
-        br_x: this.grid.width - player_size,
-        br_y: this.grid.height - player_size
-      },
+      x: this.player_size + Math.floor(Math.random() * (this.grid.width - this.player_size * 2)),
+      y: this.player_size + Math.floor(Math.random() * (this.grid.height - this.player_size * 2)),
+      map_bounds: this.map_bounds,
       controlled: true
     });
     if (__DEV__ === 'true') {
@@ -54,18 +55,12 @@ export default class PlayerScene extends Phaser.Scene {
 
   createRemotePlayer(data) {
     console.log('createRemotePlayer');
-    let player_size = 20;
     this.other_players.set(data.id, new Player({
       scene: this,
       key: 'player',
       x: data.pos.x,
       y: data.pos.y,
-      map_bounds: {
-        tl_x: 0 + player_size,
-        tl_y: 0 + player_size,
-        br_x: this.grid.width - player_size,
-        br_y: this.grid.height - player_size
-      },
+      map_bounds: this.map_bounds,
       controlled: false
     }));
   }

@@ -61,18 +61,20 @@ io.on('connection', (socket) => {
     users.delete(socket.id);
     socket.disconnect();
   });
+
   socket.on('newPlayer', (data) => {
     console.log(`newPlayer[${socket.id}]: ${JSON.stringify(data)}`);
     let user = users.get(socket.id);
     user.x = data.x;
     user.y = data.y;
-    for (let u of users.values()) {
+    users.forEach((u) => {
       if (u.id != socket.id) {
         socket.emit('serverNewPlayer', {id: u.id, pos: {x: u.x, y: u.y}});
       }
-    }
+    });
     socket.broadcast.emit('serverNewPlayer', {id: socket.id, pos: {x: data.x, y: data.y}});
   });
+
   socket.on('movePlayer', (data) => {
     let user = users.get(socket.id);
     user.x = data.x;
