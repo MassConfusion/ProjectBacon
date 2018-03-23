@@ -4,10 +4,6 @@ import PlayerScene from './scenes/PlayerScene';
 import Chat from './chat';
 import io from 'socket.io-client';
 
-import 'jquery';
-import 'bootstrap';
-
-import 'bootstrap/dist/css/bootstrap.css';
 import './main.scss';
 
 /**
