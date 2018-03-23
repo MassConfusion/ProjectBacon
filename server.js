@@ -1,16 +1,18 @@
 const path = require('path');
 const express = require('express');
 const port = process.env.PORT || 5001;
-const env = process.env.NODE_ENV || 'prod';
+const env = process.env.NODE_ENV || 'production';
 const SocketIO = require('socket.io');
 const http = require('http');
 const app = express();
 
 const server = http.createServer(app);
 
-if (env === 'dev') {
+if (env === 'development') {
   const webpack = require('webpack');
-  const config = require('./webpack.dev.js');
+  const config = require('./webpack.config.js');
+
+  config.mode = 'development';
   const compiler = webpack(config);
 
   app.use(require('webpack-dev-middleware')(compiler, {
@@ -21,7 +23,9 @@ if (env === 'dev') {
     stats: { colors: true }
   }));
 
-  app.use(require('webpack-hot-middleware')(compiler));
+  app.use(require('webpack-hot-middleware')(compiler, {
+    reload: true
+  }));
 } else {
   // Define the folder that will be used for production.
   app.use(express.static(__dirname + '/dist'));

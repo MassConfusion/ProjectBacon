@@ -18,26 +18,24 @@ module.exports = {
       'babel-polyfill',
       path.join(paths.src, 'main.js')
     ],
-    vendor: ['phaser']
+    vendor: ['phaser', 'jquery', 'bootstrap']
   },
   context: paths.src,
   output: {
     path: paths.dist,
-    filename: 'js/bundle.js'
+    filename: 'js/[name].bundle.js',
+    chunkFilename: 'js/[name].bundle.js',
+    publicPath: '/'
   },
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: path.join(paths.root, 'index.html'),
-      chunks: ['app', 'vendor']
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      filename: 'js/vendor.bundle.js'
+      template: path.join(paths.root, 'index.html')
     }),
     new webpack.DefinePlugin({
       'CANVAS_RENDERER': JSON.stringify(true),
-      'WEBGL_RENDERER': JSON.stringify(true)
+      'WEBGL_RENDERER': JSON.stringify(true),
+      __DEV__: JSON.stringify(process.env.NODE_ENV === 'development' ? true : false)
     }),
     new ExtractTextPlugin('css/[name].css'),
     new webpack.ProvidePlugin({
