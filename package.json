@@ -5,9 +5,11 @@
   "author": "MassConfusion",
   "main": "server.js",
   "scripts": {
-    "start": "node server",
-    "start-dev": "nodemon --exec babel-node server.js",
-    "build": "webpack --mode production -p",
+    "start": "nodemon --exec babel-node server/server.js",
+    "start:prod": "node dist/server/server.js",
+    "build": "npm run build:server && npm run build:client",
+    "build:client": "webpack --mode production -p",
+    "build:server": "babel server -d dist/server",
     "lint": "eslint src ./**.js -f table --ext .js",
     "lint-fix": "eslint src ./**.js -f table --ext .js --fix",
     "lint-travis": "eslint src ./**.js --ext .js"

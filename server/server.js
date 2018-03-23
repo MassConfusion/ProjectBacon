@@ -10,7 +10,7 @@ const server = http.createServer(app);
 
 if (env === 'development') {
   const webpack = require('webpack');
-  const config = require('./webpack.config.js');
+  const config = require('../webpack.config.js');
 
   config.mode = 'development';
   const compiler = webpack(config);
@@ -28,11 +28,11 @@ if (env === 'development') {
   }));
 } else {
   // Define the folder that will be used for production.
-  app.use(express.static(__dirname + '/dist'));
+  app.use(express.static(__dirname + '/dist/client'));
 
   // Routing.
   app.get('/*', function(req, res) {
-    res.sendFile(path.join(__dirname, 'dist/index.html'));
+    res.sendFile(path.join(__dirname, 'dist/client/index.html'));
   });
 }
 

@@ -22,7 +22,7 @@ module.exports = {
   },
   context: paths.src,
   output: {
-    path: paths.dist,
+    path: path.join(paths.dist, 'client'),
     filename: 'js/[name].bundle.js',
     chunkFilename: 'js/[name].bundle.js',
     publicPath: '/'

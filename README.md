@@ -30,7 +30,7 @@ $ nvm use 8
 $ npm install
 
 # To run the livereload developer site.
-$ npm run start-dev
+$ npm start
 ```
 
 ### Build the project
@@ -44,7 +44,7 @@ $ npm install
 $ npm run build
 
 # Optional: To start the server
-$ npm start
+$ npm start:prod
 ```
 
 ### Run style checker
