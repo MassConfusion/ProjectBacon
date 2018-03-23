@@ -1,17 +1,17 @@
-const path = require('path');
-const express = require('express');
+import path from 'path';
+import express from 'express';
+import SocketIO from 'socket.io';
+import http from 'http';
+import webpack from 'webpack';
+import config from '../webpack.config.js';
+
 const port = process.env.PORT || 5001;
 const env = process.env.NODE_ENV || 'production';
-const SocketIO = require('socket.io');
-const http = require('http');
-const app = express();
 
+const app = express();
 const server = http.createServer(app);
 
 if (env === 'development') {
-  const webpack = require('webpack');
-  const config = require('../webpack.config.js');
-
   config.mode = 'development';
   const compiler = webpack(config);
 
